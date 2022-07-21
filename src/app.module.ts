@@ -1,12 +1,9 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { UsuarioModule } from './modules/usuario/usuario.module';
 import { LembreteModule } from './modules/lembrete/lembrete.module';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
-  imports: [UsuarioModule, LembreteModule],
-  controllers: [AppController],
-  providers: [AppService],
+  imports: [UsuarioModule, LembreteModule, ConfigModule.forRoot()],
 })
 export class AppModule {}
