@@ -26,7 +26,7 @@ export class UsuarioController {
 
   @Post('/registrar')
   public async registrar(@Body() criarUsuarioDto: CriarUsuarioDto) {
-    const usuarioExistente = this.usuarioService.obterPorEmail(
+    const usuarioExistente = await this.usuarioService.obterPorEmail(
       criarUsuarioDto.email,
     );
 
