@@ -30,7 +30,7 @@ export class LembreteController {
 
   @Get(':id')
   public async obterPorId(@Param() params: ObterUmLembreteParams) {
-    return await this.lembreteService.obterPorId(params);
+    return await this.lembreteService.obterPorId(params.id);
   }
 
   @Patch(':id')
@@ -38,11 +38,11 @@ export class LembreteController {
     @Param() params: AtualizarLembreteParams,
     @Body() atualizarLembreteDto: AtualizarLembreteDto,
   ) {
-    this.lembreteService.atualizarLembrete(params, atualizarLembreteDto);
+    this.lembreteService.atualizarLembrete(params.id, atualizarLembreteDto);
   }
 
   @Delete(':id')
   public async deletarLembrete(@Param() params: DeletarLembreteParams) {
-    await this.lembreteService.deletarLembrete(params);
+    await this.lembreteService.deletarLembrete(params.id);
   }
 }

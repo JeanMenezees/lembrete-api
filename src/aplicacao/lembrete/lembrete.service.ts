@@ -20,20 +20,20 @@ export class LembreteService {
     return this.lembreteRepository.find();
   }
 
-  public async obterPorId(id: { id: number }) {
+  public async obterPorId(id: number) {
     return this.lembreteRepository.findOneBy({
-      id: id.id,
+      id: id,
     });
   }
 
   public async atualizarLembrete(
-    id: { id: number },
+    id: number,
     atualizarLembreteDto: AtualizarLembreteDto,
   ) {
-    this.lembreteRepository.update(id.id, atualizarLembreteDto);
+    this.lembreteRepository.update(id, atualizarLembreteDto);
   }
 
-  public async deletarLembrete(id: { id: number }) {
-    this.lembreteRepository.delete({ id: id.id });
+  public async deletarLembrete(id: number) {
+    this.lembreteRepository.delete({ id: id });
   }
 }
