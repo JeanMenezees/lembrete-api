@@ -1,4 +1,11 @@
-import { Body, Controller, Post, Request, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  HttpException,
+  Post,
+  Request,
+  UseGuards,
+} from '@nestjs/common';
 import { AuthService } from 'src/aplicacao/auth/auth.service';
 import { LocalAuthGuard } from 'src/aplicacao/auth/strategies/local/local-auth.guard';
 import { UsuarioService } from 'src/aplicacao/usuario/usuario.service';
@@ -19,6 +26,14 @@ export class UsuarioController {
 
   @Post('/registrar')
   public async registrar(@Body() criarUsuarioDto: CriarUsuarioDto) {
+    const usuarioExistente = this.usuarioService.obterPorEmail(
+      criarUsuarioDto.email,
+    );
+
+    if (usuarioExistente) {
+      throw new HttpException('Este e-mail já esta sendo usado', 409);
+    }
+
     this.usuarioService.criarUsuario(criarUsuarioDto);
   }
 }

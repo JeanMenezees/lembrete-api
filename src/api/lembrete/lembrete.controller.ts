@@ -8,6 +8,7 @@ import {
   Param,
   UseGuards,
   Request,
+  HttpException,
 } from '@nestjs/common';
 import { LembreteService } from 'src/aplicacao/lembrete/lembrete.service';
 import { AtualizarLembreteDto } from './dto/atualizar-lembrete.dto';
@@ -42,7 +43,13 @@ export class LembreteController {
     @Request() req: any,
     @Param() params: ObterUmLembreteParams,
   ) {
-    return await this.lembreteService.obterPorId(req.user.userId, params.id);
+    const lembrete = await this.lembreteService.obterPorId(
+      req.user.userId,
+      params.id,
+    );
+
+    if (lembrete) return lembrete;
+    else throw new HttpException('Lembrete não encontrado', 403);
   }
 
   @UseGuards(JwtAuthGuard)
@@ -52,11 +59,18 @@ export class LembreteController {
     @Param() params: AtualizarLembreteParams,
     @Body() atualizarLembreteDto: AtualizarLembreteDto,
   ) {
-    this.lembreteService.atualizarLembrete(
+    const lembrete = await this.lembreteService.obterPorId(
       req.user.userId,
       params.id,
-      atualizarLembreteDto,
     );
+
+    if (lembrete)
+      this.lembreteService.atualizarLembrete(
+        req.user.userId,
+        params.id,
+        atualizarLembreteDto,
+      );
+    else throw new HttpException('Lembrete não encontrado', 403);
   }
 
   @UseGuards(JwtAuthGuard)
@@ -65,6 +79,13 @@ export class LembreteController {
     @Request() req: any,
     @Param() params: DeletarLembreteParams,
   ) {
-    await this.lembreteService.deletarLembrete(req.user.userId, params.id);
+    const lembrete = await this.lembreteService.obterPorId(
+      req.user.userId,
+      params.id,
+    );
+
+    if (lembrete)
+      this.lembreteService.deletarLembrete(req.user.userId, params.id);
+    else throw new HttpException('Lembrete não encontrado', 403);
   }
 }
