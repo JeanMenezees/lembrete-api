@@ -1,14 +1,15 @@
 import { Injectable } from '@nestjs/common';
 import { UsuarioService } from '../usuario/usuario.service';
 import { JwtService } from '@nestjs/jwt';
-import * as bcrypt from 'bcrypt';
 import { AssinaturaUsuario } from '../usuario/assinatura-usuario';
+import { BcryptService } from '../bcrypt/bcrypt.service';
 
 @Injectable()
 export class AuthService {
   constructor(
     private usuarioService: UsuarioService,
     private jwtService: JwtService,
+    private bcryptService: BcryptService,
   ) {}
 
   public async validarUsuario(
@@ -16,10 +17,10 @@ export class AuthService {
     senha: string,
   ): Promise<AssinaturaUsuario | null> {
     const usuario = await this.usuarioService.obterPorEmail(email);
-    const saltRounds = 10;
-    const hashPassword: string = bcrypt.hashSync(senha, saltRounds);
 
-    const isMatchPassword = bcrypt.compare(usuario.senha, hashPassword);
+    const isMatchPassword = await this.bcryptService.compararSenhaComHash(
+      usuario,
+    );
 
     if (usuario && isMatchPassword) {
       const { senha, ...assinatura } = usuario;

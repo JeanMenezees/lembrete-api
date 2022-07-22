@@ -3,12 +3,13 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { CriarUsuarioDto } from 'src/api/usuario/dto/criar-usuario.dto';
 import { Usuario } from 'src/dominio/entidades/usuario.entity';
 import { Repository } from 'typeorm';
-import * as bcrypt from 'bcrypt';
+import { BcryptService } from '../bcrypt/bcrypt.service';
 
 @Injectable()
 export class UsuarioService {
   constructor(
     @InjectRepository(Usuario) private usuarioRepository: Repository<Usuario>,
+    private bcryptService: BcryptService,
   ) {}
 
   public async obterPorEmail(email: string) {
@@ -18,10 +19,8 @@ export class UsuarioService {
   }
 
   public async criarUsuario(criarUsuarioDto: CriarUsuarioDto) {
-    const saltRounds = 10;
-    const hashPassword: string = bcrypt.hashSync(
+    const hashPassword: string = await this.bcryptService.aplicarBcryptEmSenha(
       criarUsuarioDto.senha,
-      saltRounds,
     );
 
     const usuarioComSenhaHash: CriarUsuarioDto = {
