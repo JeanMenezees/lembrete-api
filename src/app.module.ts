@@ -1,12 +1,20 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { UsuarioModule } from './usuario/usuario.module';
-import { LembreteModule } from './lembrete/lembrete.module';
+import { UsuarioModule } from './modules/usuario/usuario.module';
+import { LembreteModule } from './modules/lembrete/lembrete.module';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { AuthModule } from './modules/auth/auth.module';
 
 @Module({
-  imports: [UsuarioModule, LembreteModule],
-  controllers: [AppController],
-  providers: [AppService],
+  imports: [
+    UsuarioModule,
+    LembreteModule,
+    TypeOrmModule.forRoot({
+      type: 'sqlite',
+      database: 'lembretesDB',
+      entities: [__dirname + '/**/*.entity.js'],
+      synchronize: true,
+    }),
+    AuthModule,
+  ],
 })
 export class AppModule {}
