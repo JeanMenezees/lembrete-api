@@ -17,8 +17,6 @@ export class BcryptService {
     usuario: Usuario,
     senha: string,
   ): Promise<boolean> {
-    const senhaComHash: string = await this.aplicarBcryptEmSenha(senha);
-
-    return bcrypt.compare(usuario.senha, senhaComHash);
+    return bcrypt.compare(senha, usuario.senha);
   }
 }
