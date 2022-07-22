@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
-import { UsuarioModule } from './modules/usuario/usuario.module';
-import { LembreteModule } from './modules/lembrete/lembrete.module';
+import { UsuarioModule } from './modules/usuario.module';
+import { LembreteModule } from './modules/lembrete.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AuthModule } from './modules/auth/auth.module';
+import { AuthModule } from './modules/auth.module';
 
 @Module({
   imports: [
