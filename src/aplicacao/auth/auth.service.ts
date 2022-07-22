@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import { Usuario } from 'src/dominio/entidades/usuario.entity';
 import { UsuarioService } from '../usuario/usuario.service';
 import { JwtService } from '@nestjs/jwt';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class AuthService {
@@ -15,9 +15,13 @@ export class AuthService {
     senha: string,
   ): Promise<{ id: number; email: string } | null> {
     const usuario = await this.usuarioService.obterPorEmail(email);
+    const saltRounds = 10;
+    const hashPassword: string = bcrypt.hashSync(senha, saltRounds);
+
+    const isMatchPassword = bcrypt.compare(usuario.senha, hashPassword);
 
     //TODO: usar bcrypt
-    if (usuario && usuario.senha === senha) {
+    if (usuario && isMatchPassword) {
       const { senha, ...result } = usuario;
       return result;
     }
