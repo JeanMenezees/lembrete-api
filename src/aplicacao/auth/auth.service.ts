@@ -20,7 +20,6 @@ export class AuthService {
 
     const isMatchPassword = bcrypt.compare(usuario.senha, hashPassword);
 
-    //TODO: usar bcrypt
     if (usuario && isMatchPassword) {
       const { senha, ...result } = usuario;
       return result;
