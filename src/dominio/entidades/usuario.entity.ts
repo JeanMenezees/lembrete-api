@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Lembrete } from './lembrete.entity';
 
 @Entity()
 export class Usuario {
@@ -6,8 +7,11 @@ export class Usuario {
   public id: number;
 
   @Column()
-  email: string;
+  public email: string;
 
   @Column()
-  senha: string;
+  public senha: string;
+
+  @OneToMany((type) => Lembrete, (lembrete) => lembrete.usuario)
+  public lembretes: Lembrete[];
 }

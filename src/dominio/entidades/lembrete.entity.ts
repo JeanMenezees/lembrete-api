@@ -2,9 +2,11 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { Usuario } from './usuario.entity';
 
 @Entity()
 export class Lembrete {
@@ -12,17 +14,20 @@ export class Lembrete {
   public id: number;
 
   @Column()
-  titulo: string;
+  public titulo: string;
 
   @Column()
-  descricao: string;
+  public descricao: string;
 
   @Column({ default: false })
-  completo: boolean;
+  public completo: boolean;
 
   @CreateDateColumn()
-  criadoEm: Date;
+  public criadoEm: Date;
 
   @UpdateDateColumn()
-  atualizadoEm: Date;
+  public atualizadoEm: Date;
+
+  @ManyToOne((type) => Usuario, (usuario) => usuario.lembretes)
+  public usuario: Usuario;
 }
