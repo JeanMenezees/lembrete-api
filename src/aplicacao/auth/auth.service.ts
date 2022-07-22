@@ -20,6 +20,7 @@ export class AuthService {
 
     const isMatchPassword = await this.bcryptService.compararSenhaComHash(
       usuario,
+      senha,
     );
 
     if (usuario && isMatchPassword) {

@@ -13,8 +13,11 @@ export class BcryptService {
     return senhaComHash;
   }
 
-  public async compararSenhaComHash(usuario: Usuario): Promise<boolean> {
-    const senhaComHash: string = await this.aplicarBcryptEmSenha(usuario.senha);
+  public async compararSenhaComHash(
+    usuario: Usuario,
+    senha: string,
+  ): Promise<boolean> {
+    const senhaComHash: string = await this.aplicarBcryptEmSenha(senha);
 
     return bcrypt.compare(usuario.senha, senhaComHash);
   }
