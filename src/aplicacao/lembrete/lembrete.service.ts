@@ -12,28 +12,57 @@ export class LembreteService {
     private lembreteRepository: Repository<Lembrete>,
   ) {}
 
-  public async criarLembrete(criarLembreteDto: CriarLembreteDto) {
-    this.lembreteRepository.save(criarLembreteDto);
+  public async criarLembrete(
+    idDoUsuario: number,
+    criarLembreteDto: CriarLembreteDto,
+  ) {
+    this.lembreteRepository
+      .createQueryBuilder('lembrete')
+      .insert()
+      .into(Lembrete)
+      .values({ ...criarLembreteDto, usuario: { id: idDoUsuario } })
+      .execute();
   }
 
-  public async obterTodos(): Promise<Lembrete[]> {
-    return this.lembreteRepository.find();
+  public async obterTodos(idDoUsuario: number): Promise<Lembrete[] | null> {
+    return this.lembreteRepository
+      .createQueryBuilder('lembrete')
+      .where('lembrete.usuarioId = :usuarioId', { usuarioId: idDoUsuario })
+      .getMany();
   }
 
-  public async obterPorId(id: number) {
-    return this.lembreteRepository.findOneBy({
-      id: id,
-    });
+  public async obterPorId(
+    idDoUsuario: number,
+    id: number,
+  ): Promise<Lembrete | null> {
+    return this.lembreteRepository
+      .createQueryBuilder('lembrete')
+      .where('lembrete.usuarioId = :usuarioId', { usuarioId: idDoUsuario })
+      .andWhere('lembrete.id = :id', { id: id })
+      .getOne();
   }
 
   public async atualizarLembrete(
+    idDoUsuario: number,
     id: number,
     atualizarLembreteDto: AtualizarLembreteDto,
   ) {
-    this.lembreteRepository.update(id, atualizarLembreteDto);
+    this.lembreteRepository
+      .createQueryBuilder('lembrete')
+      .update(Lembrete)
+      .set(atualizarLembreteDto)
+      .where('lembrete.usuarioId = :usuarioId', { usuarioId: idDoUsuario })
+      .andWhere('lembrete.id = :id', { id: id })
+      .execute();
   }
 
-  public async deletarLembrete(id: number) {
-    this.lembreteRepository.delete({ id: id });
+  public async deletarLembrete(idDoUsuario: number, id: number) {
+    this.lembreteRepository
+      .createQueryBuilder('lembrete')
+      .delete()
+      .from(Lembrete)
+      .where('lembrete.usuarioId = :usuarioId', { usuarioId: idDoUsuario })
+      .andWhere('lembrete.id = :id', { id: id })
+      .execute();
   }
 }

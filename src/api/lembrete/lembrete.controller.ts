@@ -6,6 +6,8 @@ import {
   Patch,
   Post,
   Param,
+  UseGuards,
+  Request,
 } from '@nestjs/common';
 import { LembreteService } from 'src/aplicacao/lembrete/lembrete.service';
 import { AtualizarLembreteDto } from './dto/atualizar-lembrete.dto';
@@ -13,36 +15,56 @@ import { CriarLembreteDto } from './dto/criar-lembrete.dto';
 import { AtualizarLembreteParams } from './params/atualizar-lembrete.params';
 import { ObterUmLembreteParams } from './params/obter-um-lembrete.param';
 import { DeletarLembreteParams } from './params/deletar-lembrete.params';
+import { JwtAuthGuard } from 'src/aplicacao/auth/strategies/jwt/jwt-auth.guard';
 
 @Controller('lembrete')
 export class LembreteController {
   constructor(private lembreteService: LembreteService) {}
 
+  @UseGuards(JwtAuthGuard)
   @Post()
-  public async criarLembrete(@Body() criarLembreteDto: CriarLembreteDto) {
-    await this.lembreteService.criarLembrete(criarLembreteDto);
+  public async criarLembrete(
+    @Request() req: any,
+    @Body() criarLembreteDto: CriarLembreteDto,
+  ) {
+    await this.lembreteService.criarLembrete(req.user.userId, criarLembreteDto);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get()
-  public async obterTodos() {
-    return await this.lembreteService.obterTodos();
+  public async obterTodos(@Request() req: any) {
+    return await this.lembreteService.obterTodos(req.user.userId);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get(':id')
-  public async obterPorId(@Param() params: ObterUmLembreteParams) {
-    return await this.lembreteService.obterPorId(params.id);
+  public async obterPorId(
+    @Request() req: any,
+    @Param() params: ObterUmLembreteParams,
+  ) {
+    return await this.lembreteService.obterPorId(req.user.userId, params.id);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Patch(':id')
   public async atualizarLembrete(
+    @Request() req: any,
     @Param() params: AtualizarLembreteParams,
     @Body() atualizarLembreteDto: AtualizarLembreteDto,
   ) {
-    this.lembreteService.atualizarLembrete(params.id, atualizarLembreteDto);
+    this.lembreteService.atualizarLembrete(
+      req.user.userId,
+      params.id,
+      atualizarLembreteDto,
+    );
   }
 
+  @UseGuards(JwtAuthGuard)
   @Delete(':id')
-  public async deletarLembrete(@Param() params: DeletarLembreteParams) {
-    await this.lembreteService.deletarLembrete(params.id);
+  public async deletarLembrete(
+    @Request() req: any,
+    @Param() params: DeletarLembreteParams,
+  ) {
+    await this.lembreteService.deletarLembrete(req.user.userId, params.id);
   }
 }
