@@ -4,6 +4,8 @@
 
 Uma API simples baseada no DDD (`domain-driven-design`) pronta para produção de lembretes com auth
 
+![GitHub](https://img.shields.io/github/license/JeanMenezees/lembrete-api?color=purple)
+
 </div>
 
 ## Tecnologias
@@ -23,11 +25,13 @@ Uma API simples baseada no DDD (`domain-driven-design`) pronta para produção d
 ## Rodando com docker
 
 Build da imagem:
+
 ```
 $ docker compose build
 ```
 
 Para subir a imagem:
+
 ```
 $ docker compose up nest-project
 ```
