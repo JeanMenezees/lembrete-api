@@ -1,3 +1,3 @@
-export interface ObterUmLembreteParams {
+export class ObterUmLembreteParams {
   id: number;
 }
