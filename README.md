@@ -49,3 +49,9 @@ Após a aplicação rodar no container, já será possível acessar o swagger do
 - husky
 - eslint
 - lint-staged
+
+## Contato
+
+|   | Nome | Email |
+| ------------- | ------------- |------------- |
+| <img src="https://github.com/JeanMenezees.png" width="48">  | Jean Menezes  | jeanvbonimenezes@gmail.com  |
