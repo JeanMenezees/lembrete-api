@@ -11,6 +11,7 @@ Uma API simples baseada no DDD (`domain-driven-design`) pronta para produção d
 ## Status
 
 - Em produção em `https://lembrete-api.herokuapp.com/`
+- Swagger em `https://lembrete-api.herokuapp.com/api#/`
 
 ## Tecnologias
 
