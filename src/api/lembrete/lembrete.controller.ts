@@ -27,6 +27,8 @@ export class LembreteController {
   @ApiBody({ type: [CriarLembreteDto] })
   @ApiBearerAuth()
   @ApiResponse({ status: 201 })
+  @ApiResponse({ status: 400, description: 'titulo is required' })
+  @ApiResponse({ status: 400, description: 'descricao is required' })
   @UseGuards(JwtAuthGuard)
   @Post()
   public async criarLembrete(

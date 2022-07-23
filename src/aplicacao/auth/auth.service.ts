@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, Injectable } from '@nestjs/common';
 import { UsuarioService } from '../usuario/usuario.service';
 import { JwtService } from '@nestjs/jwt';
 import { AssinaturaUsuario } from '../usuario/assinatura-usuario';
@@ -17,6 +17,8 @@ export class AuthService {
     senha: string,
   ): Promise<AssinaturaUsuario | null> {
     const usuario = await this.usuarioService.obterPorEmail(email);
+
+    if (!usuario) throw new HttpException('Usuário inválido', 400);
 
     const isMatchPassword = await this.bcryptService.compararSenhaComHash(
       usuario,

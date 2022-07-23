@@ -22,6 +22,9 @@ export class UsuarioController {
   ) {}
 
   @ApiResponse({ status: 401, description: 'Unauthorized' })
+  @ApiResponse({ status: 400, description: 'Usuário inválido' })
+  @ApiResponse({ status: 400, description: 'email must be an email' })
+  @ApiResponse({ status: 400, description: 'password is required' })
   @ApiResponse({ status: 200 })
   @ApiBody({ type: [LogarUsuarioDto] })
   @UseGuards(LocalAuthGuard)
@@ -32,6 +35,8 @@ export class UsuarioController {
 
   @ApiBody({ type: [CriarUsuarioDto] })
   @ApiResponse({ status: 409, description: 'Este e-mail já está sendo usado.' })
+  @ApiResponse({ status: 400, description: 'email must be an email' })
+  @ApiResponse({ status: 400, description: 'senha is required' })
   @ApiResponse({ status: 200 })
   @Post('/registrar')
   public async registrar(@Body() criarUsuarioDto: CriarUsuarioDto) {
