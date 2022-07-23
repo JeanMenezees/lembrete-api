@@ -8,6 +8,10 @@ Uma API simples baseada no DDD (`domain-driven-design`) pronta para produção d
 
 </div>
 
+## Status
+
+- Em produção em `https://lembrete-api.herokuapp.com/`
+
 ## Tecnologias
 
 - NestJS
@@ -59,6 +63,10 @@ Ex:
 - husky
 - eslint
 - lint-staged
+
+## Extensões auxiliares 
+
+- Thunder client
 
 ## Contato
 
