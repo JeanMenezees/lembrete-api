@@ -38,7 +38,17 @@ $ docker compose up nest-project
 
 ## Swagger
 
-Após a aplicação rodar no container, já será possível acessar o swagger documentado da API via `http://localhost:3000/#api`
+Após a aplicação rodar no container, já será possível acessar o swagger documentado da API via `http://localhost:3000/api#/`
+
+*Obs: todos os endpoints que recebem um body precisam receber no formato json*
+Ex:
+
+```
+{
+  titulo: 'fazer uma api',
+  descricao: 'com nestjs'
+}
+```
 
 ## Feature de observação
 
